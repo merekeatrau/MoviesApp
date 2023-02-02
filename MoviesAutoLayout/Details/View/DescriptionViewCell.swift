@@ -12,9 +12,9 @@ class DescriptionViewCell: UITableViewCell {
     static let reuseIdentifier = "DescriptionViewCell"
     private let stackView = UIStackView()
     private let secondStackView = UIStackView()
-    private let headerLabel = UILabel()
-    private let subheaderLabel = UILabel()
-    private let descriptionLabel = UILabel()
+    let headerLabel = UILabel()
+    let subheaderLabel = UILabel()
+    let descriptionLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         

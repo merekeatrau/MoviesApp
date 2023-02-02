@@ -11,13 +11,12 @@ class CastCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "CastCollectionViewCell"
     
-    private let personImageView = UIImageView()
-    private let nameLabel = UILabel()
-    private let characterLabel = UILabel()
+    var personImageView = UIImageView()
+    var nameLabel = UILabel()
+    var characterLabel = UILabel()
     private let stackView = UIStackView()
 
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         setInterface()
         setConstraints()
@@ -29,17 +28,18 @@ class CastCollectionViewCell: UICollectionViewCell {
         personImageView.layer.masksToBounds = true
         personImageView.layer.cornerRadius = 32
         personImageView.contentMode = .scaleAspectFill
-        personImageView.image = UIImage(named: "pale")
         
         nameLabel.textColor = .white
         nameLabel.text = "Shal"
         nameLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         nameLabel.textAlignment = .center
+        nameLabel.numberOfLines = 0
 
         characterLabel.textColor = .white
         characterLabel.text = "Toqash"
-        characterLabel.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        characterLabel.font = UIFont.systemFont(ofSize: 9, weight: .regular)
         characterLabel.textAlignment = .center
+        characterLabel.numberOfLines = 0
         
         stackView.axis = .vertical
         stackView.alignment = .center

@@ -7,9 +7,23 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController  {
+class DetailsViewController: UIViewController {
     
     private var tableView = UITableView()
+    private let movieId: Int
+    private let detailsService: DetailsService
+    private var details: DetailsEntity?
+    private var cast: [Cast] = []
+    
+    init(detailsService: DetailsService, movieId: Int){
+        self.detailsService = detailsService
+        self.movieId = movieId
+        super.init(nibName:nil, bundle:nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +34,20 @@ class DetailsViewController: UIViewController  {
         tableView.delegate = self
         tableView.dataSource = self
         
-        title = "About"
+        detailsService.loadMovieDetails(with: movieId, failure: { error in
+            print(error)
+        }, completion: { [weak self] details in
+            self?.details = details
+            self?.tableView.reloadData()
+        })
+        
+        detailsService.loadCredits(with: movieId, completion: {
+            [weak self] cast in
+            self?.cast = cast
+            self?.tableView.reloadData()
+        })
+        
+        title = "Movie"
         view.backgroundColor = .black
         view.addSubview(tableView)
         setTableView()
@@ -57,6 +84,12 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.backgroundColor = .clear
+            cell.ratingLabel.text = " ★ \(details?.voteAverage ?? 0.0)  "
+            if let image = details?.backdropPath {
+                NetworkManager.shared.loadImage(with: image , completion: { imageData in
+                    cell.movieImageView.image = UIImage(data: imageData)
+                })
+            }
             return cell
         }
         
@@ -65,14 +98,18 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.backgroundColor = .clear
+            cell.headerLabel.text = details?.title
+            cell.subheaderLabel.text = details?.releaseDate
+            cell.descriptionLabel.text = details?.overview
             return cell
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CastTableViewCell.reuseIdentifier, for: indexPath) as? CastTableViewCell else {
             return UITableViewCell()
         }
-        cell.didSelectCast = {
-            let actorVC = ActorViewController()
+        cell.casts = cast
+        cell.didSelectCast = { id in
+            let actorVC = ActorViewController(detailsService: DetailsService.shared, actorId: id)
             self.navigationController?.pushViewController(actorVC, animated: true)
         }
         cell.backgroundColor = .clear
@@ -81,10 +118,9 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 2 {
-            return 120
+            return 144
         }
         return UITableView.automaticDimension
     }
-    
-    
 }
+

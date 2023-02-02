@@ -14,7 +14,7 @@ class BioTableViewCell: UITableViewCell {
     private var bioStackView = UIStackView()
 
     private var nameTitleLabel = UILabel()
-    private var nameLabel = UILabel()
+    var nameLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         

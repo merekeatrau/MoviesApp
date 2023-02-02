@@ -11,8 +11,8 @@ class ImageViewCell: UITableViewCell {
     
     static let reuseIdentifier = "ImageTableCell"
     
-    private let movieImageView = UIImageView()
-    private let ratingLabel = UILabel()
+    var movieImageView = UIImageView()
+    var ratingLabel = UILabel()
     private var blurEffect: UIBlurEffect!
     private var blurView: UIVisualEffectView!
     
@@ -29,7 +29,6 @@ class ImageViewCell: UITableViewCell {
     
     private func setupInterface() {
         
-        movieImageView.image = UIImage(named: "pale")
         movieImageView.layer.masksToBounds = true
         movieImageView.layer.cornerRadius = 12
         movieImageView.contentMode = .scaleAspectFill
@@ -44,7 +43,6 @@ class ImageViewCell: UITableViewCell {
         ratingLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         ratingLabel.layer.masksToBounds = true
         ratingLabel.layer.cornerRadius = 8
-        ratingLabel.text = " ★ 8.8 "
         ratingLabel.backgroundColor = .clear
         ratingLabel.layer.shadowColor = UIColor.black.cgColor
         ratingLabel.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
@@ -74,7 +72,7 @@ class ImageViewCell: UITableViewCell {
         movieImageView.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         movieImageView.heightAnchor.constraint(equalToConstant: 280).isActive = true
         
-        ratingLabel.widthAnchor.constraint(equalToConstant: 56).isActive = true
+        ratingLabel.widthAnchor.constraint(equalToConstant: 72).isActive = true
         ratingLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         ratingLabel.topAnchor.constraint(equalTo: movieImageView.topAnchor, constant: 8).isActive = true
         ratingLabel.leadingAnchor.constraint(equalTo: movieImageView.leadingAnchor, constant: 8).isActive = true
@@ -88,5 +86,5 @@ class ImageViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }

@@ -108,7 +108,7 @@ class NewsCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with news: News) {
+    func config(with news: News) {
         movieTitleLabel.text = news.title
         dateTitleLabel.text = news.date
         previewImageView.image = news.preview

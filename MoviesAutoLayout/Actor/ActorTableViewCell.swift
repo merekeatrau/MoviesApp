@@ -11,7 +11,7 @@ class ActorTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "ActorTableViewCell"
     
-    private var actorImageView = UIImageView()
+    var actorImageView = UIImageView()
     
     private var mainStackView = UIStackView()
     private var nameStackView = UIStackView()
@@ -20,13 +20,13 @@ class ActorTableViewCell: UITableViewCell {
     private var textStackView = UIStackView()
     
     private var nameTitleLabel = UILabel()
-    private var nameLabel = UILabel()
+    var nameLabel = UILabel()
     
     private var bdTitleLabel = UILabel()
-    private var bdLabel = UILabel()
+    var bdLabel = UILabel()
     
     private var roleTitleLabel = UILabel()
-    private var roleLabel = UILabel()
+    var roleLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         
@@ -40,7 +40,6 @@ class ActorTableViewCell: UITableViewCell {
     
     private func setupInterface() {
         
-        actorImageView.image = UIImage(named: "christianbale")
         actorImageView.layer.masksToBounds = true
         actorImageView.layer.cornerRadius = 12
         actorImageView.contentMode = .scaleAspectFill
@@ -83,7 +82,6 @@ class ActorTableViewCell: UITableViewCell {
         nameLabel.numberOfLines = 0
         nameLabel.textColor = .white
         nameLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        nameLabel.text = "Christian Bale"
         
         bdTitleLabel.numberOfLines = 0
         bdTitleLabel.textColor = .white
@@ -93,7 +91,6 @@ class ActorTableViewCell: UITableViewCell {
         bdLabel.numberOfLines = 0
         bdLabel.textColor = .white
         bdLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        bdLabel.text = "12.12.2000"
         
         roleTitleLabel.numberOfLines = 0
         roleTitleLabel.textColor = .white
@@ -103,7 +100,6 @@ class ActorTableViewCell: UITableViewCell {
         roleLabel.numberOfLines = 0
         roleLabel.textColor = .white
         roleLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        roleLabel.text = "Actor"
         
         nameStackView.addArrangedSubview(nameTitleLabel)
         nameStackView.addArrangedSubview(nameLabel)

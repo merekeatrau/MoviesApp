@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-struct Movie {
-    var rating: String?
-    var image: UIImage?
-    var title: String?
-    var genre: String?
-}
+//struct Movie {
+//    var rating: String?
+//    var image: UIImage?
+//    var title: String?
+//    var genre: String?
+//}

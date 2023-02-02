@@ -10,6 +10,19 @@ import UIKit
 class ActorViewController: UIViewController {
     
     private var tableView = UITableView()
+    private let actorId: Int
+    private let detailsService: DetailsService
+    private var actor: Actor?
+    
+    init(detailsService: DetailsService, actorId: Int){
+        self.detailsService = detailsService
+        self.actorId = actorId
+        super.init(nibName:nil, bundle:nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +32,13 @@ class ActorViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        
+        detailsService.loadActor(with: actorId, failure: { error in
+            print(error)
+        }, completion: { [weak self] actor in
+                self?.actor = actor
+                self?.tableView.reloadData()
+        })
         
         title = "Actor"
         view.backgroundColor = .black
@@ -57,12 +77,21 @@ extension ActorViewController: UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.backgroundColor = .clear
+            if let image = actor?.profilePath {
+                NetworkManager.shared.loadImage(with: image , completion: { imageData in
+                    cell.actorImageView.image = UIImage(data: imageData)
+                })
+            }
+            cell.bdLabel.text = actor?.birthday
+            cell.nameLabel.text = actor?.name
+            cell.roleLabel.text = actor?.knownForDepartment
             return cell
         }
         guard let cell = tableView.dequeueReusableCell(withIdentifier: BioTableViewCell.reuseIdentifier, for: indexPath) as? BioTableViewCell else {
             return UITableViewCell()
         }
         cell.backgroundColor = .clear
+        cell.nameLabel.text = actor?.biography
         return cell
     }
 }

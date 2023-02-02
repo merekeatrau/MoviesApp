@@ -12,10 +12,13 @@ class MovieCollectionViewCell: UICollectionViewCell {
     static let identifier = "MovieViewCell"
     
     private let movieImageView = UIImageView()
+    
     private let ratingLabel = UILabel()
     private let movieTitleLabel = UILabel()
     private let genreTitleLabel = UILabel()
+    
     private let titleStackView = UIStackView()
+    
     private var blurEffect: UIBlurEffect!
     private var blurView: UIVisualEffectView!
     
@@ -33,11 +36,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
         movieImageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.75).isActive = true
         
         titleStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-        titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -4).isActive = true
         titleStackView.topAnchor.constraint(equalTo: movieImageView.bottomAnchor, constant: 8).isActive = true
         
-        ratingLabel.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        ratingLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        ratingLabel.widthAnchor.constraint(equalToConstant: 56).isActive = true
+        ratingLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         ratingLabel.topAnchor.constraint(equalTo: movieImageView.topAnchor, constant: 8).isActive = true
         ratingLabel.leadingAnchor.constraint(equalTo: movieImageView.leadingAnchor, constant: 8).isActive = true
         
@@ -71,8 +74,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
         genreTitleLabel.textColor = .white
         genreTitleLabel.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         genreTitleLabel.layer.opacity = 0.8
+        genreTitleLabel.numberOfLines = 0
         
         ratingLabel.textColor = .white
+        ratingLabel.textAlignment = .center
         ratingLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
         ratingLabel.layer.masksToBounds = true
         ratingLabel.layer.cornerRadius = 8
@@ -99,11 +104,23 @@ class MovieCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with movie: Movie) {
-        movieTitleLabel.text = movie.title
-        genreTitleLabel.text = movie.genre
-        movieImageView.image = movie.image
-        ratingLabel.text = movie.rating
+    func config(with movie: Movie, genres: [Genre]) {
+        NetworkManager.shared.loadImage(with: movie.posterPath ?? "",
+                                        completion: { [weak self] imageData in
+            self?.movieImageView.image = UIImage(data: imageData)
+        })
+        movieTitleLabel.text = movie.originalTitle
+        ratingLabel.text = " ★ \(movie.voteAverage) "
+        genreTitleLabel.text = getGenres(by: movie.genreIds, genres: genres)
+        
+    }
+    
+    func getGenres(by ids: [Int], genres: [Genre]) -> String? {
+        var array: [String] = []
+        for id in ids {
+            array.append(genres.first {$0.id == id}?.name ?? "")
+        }
+        return array.joined(separator: ", ")
     }
     
 }
