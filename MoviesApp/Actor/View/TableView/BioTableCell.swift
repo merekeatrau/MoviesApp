@@ -62,9 +62,10 @@ class BioTableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func config(actor: Actor) {
-//        nameLabel.text = actor.biography
+    func config(actor: [Actor]) {
+        for cast in actor {
+            nameLabel.text = cast.biography
+        }
     }
-
 }
 

@@ -11,7 +11,6 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, Detail
     weak var view: DetailsViewInput!
     var router: DetailsRouterInput!
     var interactor: DetailsInteractorInput!
-
     private var movieId: Int!
 
     func configure(with movieId: Int) {
@@ -31,7 +30,7 @@ final class DetailsPresenter: DetailsViewOutput, DetailsInteractorOutput, Detail
         view.handObtainedCasts(casts)
     }
 
-    func didSelectCell(with movieId: Int) {
-        router.openMovieModule(with: movieId)
+    func didSelectCell(with actorId: Int) {
+        router.openActorModule(with: actorId)
     }
 }

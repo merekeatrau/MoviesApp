@@ -23,7 +23,7 @@ final class MovieModuleAssembly {
 
         presenter.view = movieVC
         presenter.interactor = interactor
-        presenter.router = router
+        presenter.router = router as! any MoviesRouterInput
 
         interactor.output = presenter
 

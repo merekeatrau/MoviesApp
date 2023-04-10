@@ -9,17 +9,19 @@ import Foundation
 import UIKit
 
 protocol DetailsRouterInput {
-    func openMovieModule(with movieId: Int)
+    func openActorModule(with actorId: Int)
 }
 
 final class DetailsRouter: DetailsRouterInput {
     weak var viewController: UIViewController?
 
-    func openMovieModule(with movieId: Int) {
-        let detailsVC = DetailsModuleAssembly().assemble { (detailsInput: DetailsModuleInput) in
-            detailsInput.configure(with: movieId)
+    func openActorModule(with actorId: Int) {
+        let actorVC = ActorModuleAssembly().assemble { presenter in
+            presenter.configure(with: actorId)
         }
-        viewController?.navigationController?.pushViewController(detailsVC, animated: true)
+        print(actorId)
+        print(actorId)
+        viewController?.navigationController?.pushViewController(actorVC, animated: true)
     }
 }
 

@@ -29,7 +29,3 @@ struct Actor: Decodable {
         return URL(string: "https://image.tmdb.org/t/p/w500\(path)")
     }
 }
-
-struct ActorEntity {
-    let actors: [Actor]
-}

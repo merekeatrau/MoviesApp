@@ -15,6 +15,7 @@ protocol DetailsViewInput: AnyObject {
 
 protocol DetailsViewOutput: AnyObject {
     func didLoadView()
+    func didSelectCell(with: Int)
 }
 
 class DetailsViewController: UIViewController {
@@ -37,6 +38,9 @@ class DetailsViewController: UIViewController {
         output?.didLoadView()
         setupNavBar()
         setTableView()
+        dataDisplayManager?.onCastDidSelect = { [weak self] castId in
+            self?.output?.didSelectCell(with: castId)
+        }
     }
 
     private func setupNavBar() {

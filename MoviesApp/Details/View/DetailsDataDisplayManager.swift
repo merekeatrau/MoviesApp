@@ -7,11 +7,19 @@
 
 import UIKit
 
-final class DetailsDataDisplayManager: NSObject, UITableViewDataSource, UITableViewDelegate {
+final class DetailsDataDisplayManager: NSObject, UITableViewDataSource, UITableViewDelegate, CastCellDelegate {
+
+    func didSelectCast(with castId: Int) {
+        onCastDidSelect?(castId)
+    }
+
+    var onCastDidSelect: ((Int) -> Void)?
 
     var details: [DetailsEntity] = []
 
     var casts: [Cast] = []
+
+//    var didSelectCast: ((Int) -> Void)?
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         3
@@ -40,8 +48,9 @@ final class DetailsDataDisplayManager: NSObject, UITableViewDataSource, UITableV
                 descriptionCell.configure(details)
             }
         case 2:
-            if let descriptionCell = cell as? CastTableViewCell {
-                descriptionCell.casts = casts
+            if let castsCell = cell as? CastTableViewCell {
+                castsCell.castCellDelegate = self
+                castsCell.casts = casts
             }
         default:
             break

@@ -9,7 +9,9 @@ import UIKit
 
 final class ActorDataDisplayManager: NSObject, UITableViewDelegate, UITableViewDataSource {
 
-    let cellIdentifiers = [
+    var actor: [Actor] = []
+
+    private let cellIdentifiers = [
         IndexPath(row: 0, section: 0): ActorTableСell.reuseIdentifier,
         IndexPath(row: 1, section: 0): BioTableCell.reuseIdentifier
     ]
@@ -23,16 +25,23 @@ final class ActorDataDisplayManager: NSObject, UITableViewDelegate, UITableViewD
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: ActorTableСell.reuseIdentifier, for: indexPath) as? ActorTableСell else {
-                return UITableViewCell()
-            }
-            cell.backgroundColor = .clear
-            return cell
+        guard let cellIdentifier = cellIdentifiers[indexPath] else {
+            return UITableViewCell()
         }
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: BioTableCell.reuseIdentifier, for: indexPath) as? BioTableCell else {
-            return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+        switch indexPath.row {
+        case 0:
+            if let actorCell = cell as? ActorTableСell {
+                actorCell.config(actor: actor)
+            }
+        case 1:
+            if let bioCell = cell as? BioTableCell {
+                bioCell.config(actor: actor)
+            }
+        default:
+            break
         }
         cell.backgroundColor = .clear
         return cell

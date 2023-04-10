@@ -8,17 +8,21 @@
 import UIKit
 import SnapKit
 
+protocol CastCellDelegate {
+    func didSelectCast(with castId: Int)
+}
+
 class CastTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "CastTableViewCell"
+
+    var castCellDelegate: CastCellDelegate?
 
     var casts: [Cast] = []{
         didSet {
             castCollectionView.reloadData()
         }
     }
-
-    var didSelectCast: ((Int) -> Void)?
 
     private let castCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -73,8 +77,7 @@ extension CastTableViewCell: UICollectionViewDelegate, UICollectionViewDataSourc
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(casts[indexPath.row].id)
-        didSelectCast?(casts[indexPath.row].id)
+        castCellDelegate?.didSelectCast(with: casts[indexPath.row].id)
     }
 }
 

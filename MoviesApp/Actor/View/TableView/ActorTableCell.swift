@@ -167,12 +167,13 @@ class ActorTableСell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func config(actor: Actor) {
-//        nameLabel.text = actor.name
-//        bdLabel.text = actor.birthday
-//        roleLabel.text = actor.knownForDepartment
-//        let url = URL(string: actor.profileURL ?? "")
-//        actorImageView.kf.setImage(with: url)
+    func config(actor: [Actor]) {
+        for cast in actor {
+            nameLabel.text = cast.name
+            bdLabel.text = cast.birthday
+            roleLabel.text = cast.knownForDepartment
+            actorImageView.kf.setImage(with: cast.profilePath)
+        }
     }
 }
 

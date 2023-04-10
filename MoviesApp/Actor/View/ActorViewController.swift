@@ -8,9 +8,18 @@
 import UIKit
 import SnapKit
 
+protocol ActorViewInput: AnyObject {
+    func handleObtainedActor(_ actor: [Actor])
+}
+
+protocol ActorViewOutput: AnyObject {
+    func didLoadView()
+}
+
 class ActorViewController: UIViewController {
 
-    private let dataDisplayManager = ActorDataDisplayManager()
+    var output: ActorViewOutput?
+    var dataDisplayManager: ActorDataDisplayManager?
 
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -25,10 +34,10 @@ class ActorViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         setTableView()
+        output?.didLoadView()
     }
 
     private func setupUI() {
-        title = "Actor"
         view.backgroundColor = .black
         view.addSubview(tableView)
     }
@@ -43,6 +52,13 @@ class ActorViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+}
+
+extension ActorViewController: ActorViewInput {
+    func handleObtainedActor(_ actor: [Actor]) {
+        dataDisplayManager?.actor = actor
+        tableView.reloadData()
     }
 }
 

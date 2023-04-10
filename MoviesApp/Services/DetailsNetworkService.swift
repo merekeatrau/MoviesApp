@@ -66,7 +66,7 @@ class DetailsNetworkService {
         }
     }
 
-    func loadActor(with id: Int, completion: ((Actor) -> (Void))?) {
+    func loadActor(with id: Int, completion: (([Actor]) -> (Void))?) {
         let url = baseUrl + "/3/person/\(id)"
         let parameters: Parameters = ["api_key": API_KEY]
 
@@ -76,7 +76,7 @@ class DetailsNetworkService {
                 do {
                     let actor = try JSONDecoder().decode(Actor.self, from: data)
                     DispatchQueue.main.async {
-                        completion?(actor)
+                        completion?([actor])
                     }
                 } catch let error {
                     print("Unable to parse JSON: \(error.localizedDescription)")
